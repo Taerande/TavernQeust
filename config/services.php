@@ -29,5 +29,21 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECTION'),
+    ],
+    'kakao' => [
+        'client_id' => env('KAKAO_CLIENT_ID'),
+        'client_secret' => env('KAKAO_CLIENT_SECRET'),
+        'redirect' => env('KAKAO_REDIRECTION'),
+    ],
+    'naver' => [
+        'client_id' => env('NAVER_CLIENT_ID'),
+        'client_secret' => env('NAVER_CLIENT_SECRET'),
+        'redirect' => env('NAVER_REDIRECTION'),
+    ],
 
 ];
