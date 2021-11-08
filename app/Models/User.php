@@ -46,4 +46,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Provider::class, 'user_id', 'id');
     }
+
+    public function parties()
+    {
+        return $this->hasMany(Party::class, 'user_id', 'id');
+    }
+
+    public function characters()
+    {
+        return $this->hasMany(Character::class, 'user_id', 'id');
+    }
 }

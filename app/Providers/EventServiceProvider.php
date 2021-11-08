@@ -21,6 +21,7 @@ class EventServiceProvider extends ServiceProvider
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             // ... other providers
             \SocialiteProviders\Naver\NaverExtendSocialite::class.'@handle',
+            \SocialiteProviders\Apple\AppleExtendSocialite::class.'@handle',
             \SocialiteProviders\Kakao\KakaoExtendSocialite::class.'@handle'],
     ];
 

@@ -17,7 +17,7 @@ class LoginController extends Controller
             return $validated;
         }
 
-        return Socialite::driver($provider)->stateless(false)->redirect();
+        return Socialite::driver($provider)->stateless()->redirect();
     }
 
     public function handleProviderCallback($provider)
@@ -28,7 +28,7 @@ class LoginController extends Controller
             return $validated;
         }
         try {
-            $user = Socialite::driver($provider)->stateless(false)->user();
+            $user = Socialite::driver($provider)->stateless()->user();
         }
         catch (ClientException $exception)
         {
@@ -57,7 +57,20 @@ class LoginController extends Controller
         );
         $token = $userCreated->createToken('token-name')->plainTextToken;
 
-        return response()->json($userCreated,200,['Access-Token'=>$token]);
+        // $userCreated,200,['Access-Token'=>$token]
+
+
+        return redirect('http://127.0.0.1:8080/')->withJson([
+            'message' => 'Success',
+            'data' => $userCreated,
+            'token' => $token
+        ])->withStatus(200);
+
+        // return response()->json([
+        //     'message' => 'successs',
+        //     'data' => $userCreated,
+        //     'Token' => $token
+        // ],200);
 
     }
     
