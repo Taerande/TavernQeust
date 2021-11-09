@@ -16,6 +16,12 @@ class PartyController extends Controller
     public function index()
     {
         $partylist = Party::where('status',1)->paginate(4);
+        $partylist->
+            map(function ($party){
+                $party['spec'] = $party['recruit'];
+                unset($party['recruit']);
+                $party['author'] = User::find($party['user_id'])->name;
+            });
 
         return response($partylist,200);
 
@@ -51,7 +57,12 @@ class PartyController extends Controller
      */
     public function show(Party $party, $id)
     {
-        $partyDetail = Party::where('id',$id)->first();
+        $partyDetail = Party::find($id);
+        $partyDetail['spec'] = $partyDetail['recruit'];
+        unset($partyDetail['recruit']);
+        $partyDetail['author'] = User::find($partyDetail['user_id'])->name;
+
+
         return $partyDetail;
     }
 
