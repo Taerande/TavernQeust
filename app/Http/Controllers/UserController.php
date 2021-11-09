@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Party;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -53,7 +54,15 @@ class UserController extends Controller
 
         $charInfo = User::find($id)->characters()->get(['game_id','name','spec']);
 
-        return response()->json([$userInfo,$charInfo],200);
+        $partyInfo = Party::where('user_id',$id)->where('status',1)->get();
+
+        $partyInfo->
+            map(function ($party){
+                $party['spec'] = $party['recruit'];
+                unset($party['recruit']);
+            });
+
+        return response()->json([$userInfo,$charInfo,$partyInfo],200);
     }
 
     /**
