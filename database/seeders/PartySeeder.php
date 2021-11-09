@@ -14,6 +14,6 @@ class PartySeeder extends Seeder
      */
     public function run()
     {
-        Party::factory()->times(50)->create();
+        Party::factory()->times(25)->create();
     }
 }

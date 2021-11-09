@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Character;
+use App\Models\Mercenary;
 use Illuminate\Http\Request;
 
-class CharacterController extends Controller
+class MercenaryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +14,7 @@ class CharacterController extends Controller
      */
     public function index()
     {
-        
-        $partylist = Character::where('status',1)->paginate(4);
-
-        return response($partylist);
+        //
     }
 
     /**
@@ -44,23 +41,21 @@ class CharacterController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Character  $character
+     * @param  \App\Models\Mercenary  $mercenary
      * @return \Illuminate\Http\Response
      */
-    public function show(Character $character, $id)
+    public function show(Mercenary $mercenary)
     {
-        
-        $characterDetail = Character::where('id',$id)->first();
-        return $characterDetail;
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Character  $character
+     * @param  \App\Models\Mercenary  $mercenary
      * @return \Illuminate\Http\Response
      */
-    public function edit(Character $character)
+    public function edit(Mercenary $mercenary)
     {
         //
     }
@@ -69,10 +64,10 @@ class CharacterController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Character  $character
+     * @param  \App\Models\Mercenary  $mercenary
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Character $character)
+    public function update(Request $request, Mercenary $mercenary)
     {
         //
     }
@@ -80,10 +75,10 @@ class CharacterController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Character  $character
+     * @param  \App\Models\Mercenary  $mercenary
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Character $character)
+    public function destroy(Mercenary $mercenary)
     {
         //
     }

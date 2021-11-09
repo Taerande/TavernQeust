@@ -16,8 +16,10 @@ class CreateCharactersTable extends Migration
         Schema::create('characters', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
+            $table->bigInteger('game_id');
             $table->string('name');
             $table->string('spec');
+            $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
     }

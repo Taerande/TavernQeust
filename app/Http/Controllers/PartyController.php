@@ -15,9 +15,9 @@ class PartyController extends Controller
      */
     public function index()
     {
-        $partylist = Party::where('status',1)->paginate(12);
+        $partylist = Party::where('status',1)->paginate(4);
 
-        return response($partylist);
+        return response($partylist,200);
 
 
     }

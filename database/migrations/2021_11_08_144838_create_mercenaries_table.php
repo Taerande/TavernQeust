@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePartiesTable extends Migration
+class CreateMercenariesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,18 @@ class CreatePartiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('parties', function (Blueprint $table) {
+        Schema::create('mercenaries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('character_id');
             $table->integer('game_id');
-            $table->string('title',100);
+            $table->string('author');
+            $table->char('title',100);
             $table->text('description')->nullable();
             $table->string('dungeon');
             $table->string('difficulty');
-            $table->string('goal');
+            $table->integer('profit');
             $table->dateTime('datetimeStart');
             $table->dateTime('datetimeEnd');
-            $table->string('recruit');
             $table->tinyInteger('status')->default('1'); // active = 1, inactive = -1 ,pause = 0;
 
             $table->timestamps();
@@ -38,6 +38,6 @@ class CreatePartiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parties');
+        Schema::dropIfExists('mercenaries');
     }
 }

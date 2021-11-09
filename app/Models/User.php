@@ -56,4 +56,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Character::class, 'user_id', 'id');
     }
+
+    public function mercenaries()
+    {
+        return $this->hasMany(Mercenary::class, 'user_id', 'id');
+    }
+
 }

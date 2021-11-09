@@ -5,16 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Character extends Model
+class Mercenary extends Model
 {
     use HasFactory;
 
+    
     public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id','id');
     }
-    public function mercernaries()
+
+    public function characters()
     {
-        return $this->hasOne(Mercenary::class);
+        return $this->belongsTo(Character::class);
     }
+
+
 }

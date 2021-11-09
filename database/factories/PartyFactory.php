@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Character;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -14,13 +15,17 @@ class PartyFactory extends Factory
      */
     public function definition()
     {
+        $charset = Character::all(['user_id']);
+        $newList = [];
+        foreach($charset as $char)
+        {
+            $newList[] = $char['user_id'];
+        }
+        $userId = $this->faker->randomElement($newList);
+
         return [
-            'user_id' => '1',
+            'user_id' => $userId,
             'game_id' => '1',
-            'author' => function (){
-                $userName = User::find(1);
-                return $userName->name;
-            },
             'title' => $this->faker->sentence(),
             'description'=> $this->faker->paragraphs(2,true),
             'dungeon' => '지배의 성소',

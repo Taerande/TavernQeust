@@ -12,9 +12,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index( $id )
     {
-        //
+        $userInfo = User::find($id);
+
+        return $userInfo;
     }
 
     /**
@@ -44,9 +46,14 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(User $user, $id)
     {
-        //
+        
+        $userInfo = User::find($id)->only(['id','email','name']);
+
+        $charInfo = User::find($id)->characters()->get(['game_id','name','spec']);
+
+        return response()->json([$userInfo,$charInfo],200);
     }
 
     /**

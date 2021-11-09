@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PartyController;
+use App\Http\Controllers\UserController;
 use Illuminate\Routing\RouteGroup;
 
 /*
@@ -23,6 +24,14 @@ Route::prefix('party')->group(function () {
     Route::get('{id}', [PartyController::class,'show'])->name('party.show');
 
 });
+
+
+Route::prefix('user')->group(function () {
+    Route::get('list', [UserController::class,'index'])->name('user.list');
+    Route::get('{id}', [UserController::class,'show'])->name('user.show');
+
+});
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
