@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Env;
 use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
@@ -55,22 +56,21 @@ class LoginController extends Controller
             'avatar' => $user->getAvatar()
             ]
         );
-        $token = $userCreated->createToken('token-name')->plainTextToken;
+        $token = $userCreated->createToken(env('APP_KEY'))->plainTextToken;
 
         // $userCreated,200,['Access-Token'=>$token]
 
-
-        return redirect('http://127.0.0.1:8080/')->withJson([
-            'message' => 'Success',
-            'data' => $userCreated,
-            'token' => $token
-        ])->withStatus(200);
-
-        // return response()->json([
-        //     'message' => 'successs',
+        // return redirect('http://127.0.0.1:8080/')->withJson([
+        //     'message' => 'Success',
         //     'data' => $userCreated,
-        //     'Token' => $token
-        // ],200);
+        //     'token' => $token
+        // ])->withStatus(200);
+
+        return response()->json([
+            'message' => 'successs',
+            'data' => $userCreated,
+            'Token' => $token
+        ],200);
 
     }
     
@@ -78,7 +78,7 @@ class LoginController extends Controller
     {
         if(!in_array($provider,['google','kakao','naver']))
         {
-            return response()->json(['error' =>'Please login using Google, Kakao or Naver' ],422 );
+            return response()->json(['error' =>'Please login using Google or Kakao' ],422 );
         }
     }
 

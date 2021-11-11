@@ -2,9 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MypageController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Routing\RouteGroup;
 
 /*
@@ -18,6 +19,13 @@ use Illuminate\Routing\RouteGroup;
 |
 */
 
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+// Route::get('user',[UserController::class,'indexAuth'])->middleware('auth:sanctum');
+
+
 
 Route::prefix('party')->group(function () {
     Route::get('list', [PartyController::class,'index'])->name('party.list');
@@ -26,16 +34,15 @@ Route::prefix('party')->group(function () {
 });
 
 
-Route::prefix('user')->group(function () {
-    Route::get('list', [UserController::class,'index'])->name('user.list');
-    Route::get('{id}', [UserController::class,'show'])->name('user.show');
+// Route::prefix('user')->group(function () {
+//     Route::get('list', [UserController::class,'index'])->name('user.list');
+//     Route::get('{id}', [UserController::class,'show'])->name('user.show');
 
-});
-
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// });
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::get('mypage', [MypageController::class,'index'])->name('mypage.index');
+    
+// });
 
 Route::get('login/{provider}',[LoginController::class, 'redirectToProvider']);
 Route::get('login/{provider}/callback',[LoginController::class, 'handleProviderCallback']);
