@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\ApiTokennController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,15 +23,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::post('/sanctum/token', function (Request $request) {
-
-    Auth::attempt(['email' => $request->email, 'password' => $request->password]);
-
-    $user = User::where('email', $request->email)->first();
-
-    $token = $user->createToken(env('APP_KEY'))->plainTextToken;
-
-    return response()->json(['user' => $user , 'token' => $token]);
-});
+Route::post('/sanctum/token',[ApiTokennController::class, 'createApiToken']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
