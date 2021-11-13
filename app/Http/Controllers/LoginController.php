@@ -6,6 +6,7 @@ use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Env;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
@@ -66,11 +67,17 @@ class LoginController extends Controller
         //     'token' => $token
         // ])->withStatus(200);
 
-        return response()->json([
-            'message' => 'successs',
-            'data' => $userCreated,
-            'Token' => $token
-        ],200);
+        Auth::login($userCreated);
+
+        return response(['token' => $token],200);
+
+        // return redirect(env('SPA_URL').'/mypage');
+
+        // return response()->json([
+        //     'message' => 'successs',
+        //     'data' => $userCreated,
+        //     'Token' => $token
+        // ],200);
 
     }
     

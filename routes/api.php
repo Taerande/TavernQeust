@@ -18,37 +18,49 @@ use Illuminate\Routing\RouteGroup;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+// Myapge
+Route::group(['prefix' => 'mypage', 'middleware' => 'auth:sanctum'], function(){
+    Route::get('dashbaord',[MypageController::class,'dashbaord'] )
+    ->name('mypage.dashboard');
+    Route::get('party',[MypageController::class,'party'])
+    ->name('mypage.party');
+    Route::get('character',[MypageController::class,'character'])
+    ->name('mypage.character');
+    Route::get('quest',[MypageController::class,'quest'])
+    ->name('mypage.quest');
+});
 
+// User정보 가져오기
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::get('user',[UserController::class,'indexAuth'])->middleware('auth:sanctum');
+// Route::middleware('auth:sanctum')->get('/mypage/character', function (Request $request) {
+//     return $request->user();
+// });
 
 
 
+// PartyInfo
 Route::prefix('party')->group(function () {
     Route::get('list', [PartyController::class,'index'])->name('party.list');
     Route::get('{id}', [PartyController::class,'show'])->name('party.show');
 
 });
 
+// UserInfo
+Route::prefix('user')->group(function () {
+    Route::get('list', [UserController::class,'index'])->name('user.list');
+    Route::get('{id}', [UserController::class,'show'])->name('user.show');
 
-// Route::prefix('user')->group(function () {
-//     Route::get('list', [UserController::class,'index'])->name('user.list');
-//     Route::get('{id}', [UserController::class,'show'])->name('user.show');
-
-// });
+});
 // Route::middleware('auth:sanctum')->group(function () {
 //     Route::get('mypage', [MypageController::class,'index'])->name('mypage.index');
     
 // });
 
+
+// Socail Login callback
 Route::get('login/{provider}',[LoginController::class, 'redirectToProvider']);
 Route::get('login/{provider}/callback',[LoginController::class, 'handleProviderCallback']);
-
-
-// Route::prefix('auth')->group(function () {
-//     Route::middleware('auth:sanctum')->get('/partylist',[PartyController::class, 'index'])->name('party.index');
-// });
 
