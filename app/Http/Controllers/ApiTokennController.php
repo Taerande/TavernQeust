@@ -28,6 +28,6 @@ class ApiTokennController extends Controller
 
     $token = $user->createToken(env('APP_KEY'))->plainTextToken;
 
-    return response(['user' => $user , 'token' => $token],200);
+    return response(['user' => $user , 'token' => $token],200)->withCookie('api_token', $token, 45000);
     }
 }
