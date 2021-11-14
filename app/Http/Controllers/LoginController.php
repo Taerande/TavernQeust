@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Auth;
@@ -69,9 +70,9 @@ class LoginController extends Controller
 
         Auth::login($userCreated);
 
-        return response(['token' => $token],200);
+        $response = response(['token' => $token],200)->withCookie('api_token', $token, 45000);
 
-        // return redirect(env('SPA_URL').'/mypage');
+        return $response;
 
         // return response()->json([
         //     'message' => 'successs',
