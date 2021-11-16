@@ -38,8 +38,8 @@ class PartyFactory extends Factory
             'dungeon' => '지배의 성소',
             'difficulty' => $this->faker->randomElement(['일반','영웅','신화']),
             'goal' => $this->faker->numberBetween(1,10),
-            'datetimeStart' => $currentDateTime,
-            'datetimeEnd' => $intervalDateTime,
+            'start' => $currentDateTime->format('Y-m-d H:m'),
+            'end' => $intervalDateTime->format('Y-m-d H:m'),
             'recruit' => $this->faker->randomElement(
                 ['수드','조드','야드','회드','정술','복술','고술','신기','징기','보기','분전','무전','전탱','악딜','악탱','양조','풍운','운무','화법','냉법','비법','야냥','생냥','격냥','혈죽','부죽','냉죽','고흑','악흑','파흑','신사','수사','암사','무법','잠행','암살'])
         ];

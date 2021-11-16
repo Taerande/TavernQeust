@@ -9,6 +9,13 @@ class Character extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'game_id',
+        'name',
+        'dsecription',
+        'spec',
+    ];
+
     public function users()
     {
         return $this->belongsTo(User::class);

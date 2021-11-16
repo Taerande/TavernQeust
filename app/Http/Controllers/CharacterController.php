@@ -38,7 +38,26 @@ class CharacterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+        $newSpec = implode("",$request['spec']);
+
+        $request['spec'] = $newSpec;
+
+        $data = request()->validate([
+            'game_id' => 'required',
+            'name' => 'required',
+            'description' => 'nullable',
+            'spec' => 'required',
+        ]);
+
+        auth()->user()->characters()->create($data);
+        
+        $ownCharacter = auth()->user()->characters()->orderByDesc('created_at')->first();
+        
+
+        return response($ownCharacter);
+
     }
 
     /**

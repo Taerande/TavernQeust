@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CharacterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MypageController;
@@ -7,7 +8,6 @@ use App\Http\Controllers\PartyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Routing\RouteGroup;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,6 +28,12 @@ Route::group(['prefix' => 'mypage', 'middleware' => 'auth:sanctum'], function(){
     ->name('mypage.character');
     Route::get('quest',[MypageController::class,'quest'])
     ->name('mypage.quest');
+});
+
+// My Character
+Route::group(['prefix' => 'character', 'middleware' => 'auth:sanctum'], function(){
+    Route::post('store',[CharacterController::class,'store'] )
+    ->name('char.store');
 });
 
 // User정보 가져오기
