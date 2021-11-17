@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Character;
+use App\Models\Game;
 use App\Models\User;
 use DateInterval;
 use DateTime;
@@ -32,7 +33,7 @@ class PartyFactory extends Factory
 
         return [
             'user_id' => $userId,
-            'game_id' => '1',
+            'game_id' => Game::where('name','World Of Warcraft')->first()->id,
             'title' => $this->faker->sentence(),
             'description'=> $this->faker->paragraphs(2,true),
             'dungeon' => '지배의 성소',

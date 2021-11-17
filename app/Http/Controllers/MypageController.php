@@ -24,16 +24,14 @@ class MypageController extends Controller
     }
     public function party()
     {
-        $partyInfo = Auth::user()->parties->all();
+        $partyInfo = Auth::user()->parties()->with(['users','games'])->get();
 
         return $partyInfo;
 
     }
     public function character()
     {
-        $user = Auth::user();
-
-        $CharacterInfo = $user->characters->all();
+        $CharacterInfo = Auth::user()->characters()->with(['users','games'])->get();
 
         return $CharacterInfo;
 

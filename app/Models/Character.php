@@ -18,10 +18,14 @@ class Character extends Model
 
     public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
     public function mercernaries()
     {
         return $this->hasOne(Mercenary::class);
+    }
+    public function games()
+    {
+        return $this->belongsTo(Game::class,'game_id');
     }
 }
