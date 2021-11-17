@@ -73,6 +73,20 @@ class CharacterController extends Controller
         return $characterDetail;
     }
 
+    public function status(Request $request)
+    {
+
+        $data = request()->validate([
+            'id' => '',
+            'status' => ''
+        ]);
+
+        auth()->user()->characters()->where('id',$request->id)->update($data);
+
+
+        return response($data);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

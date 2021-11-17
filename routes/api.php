@@ -34,6 +34,8 @@ Route::group(['prefix' => 'mypage', 'middleware' => 'auth:sanctum'], function(){
 Route::group(['prefix' => 'character', 'middleware' => 'auth:sanctum'], function(){
     Route::post('store',[CharacterController::class,'store'] )
     ->name('char.store');
+    Route::patch('status',[CharacterController::class,'status'] )
+    ->name('char.status');
 });
 
 // User정보 가져오기
