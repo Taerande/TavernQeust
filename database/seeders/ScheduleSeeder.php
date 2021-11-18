@@ -15,6 +15,11 @@ class ScheduleSeeder extends Seeder
      */
     public function run()
     {
-        Schedule::factory()->times(30)->create();
+        Schedule::create([
+            'party_id' => 1,
+            'start' => '2021-11-18 22:14:00',
+            'end' => '2021-11-20 08:12:00',
+        ]);
+        Schedule::factory()->times(29)->create();
     }
 }

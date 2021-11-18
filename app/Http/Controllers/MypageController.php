@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Character;
 use App\Models\Party;
 use App\Models\User;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,7 +25,7 @@ class MypageController extends Controller
     }
     public function party()
     {
-        $partyInfo = Auth::user()->parties()->with(['users','games'])->get();
+        $partyInfo = Auth::user()->parties()->with(['users','games','schedules'])->get();
 
         return $partyInfo;
 
