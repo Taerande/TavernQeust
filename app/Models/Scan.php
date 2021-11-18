@@ -5,24 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Mercenary extends Model
+class Scan extends Model
 {
     use HasFactory;
 
-    
-    public function users()
-    {
-        return $this->belongsTo(User::class,'user_id','id');
-    }
-
     public function characters()
     {
-        return $this->belongsTo(Character::class);
+        return $this->belongsTo(Character::class,'char_id');
     }
+
     public function schedules()
     {
         return $this->hasMany(Schedule::class);
     }
-
-
 }

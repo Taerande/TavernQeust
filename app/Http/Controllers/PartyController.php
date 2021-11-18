@@ -13,6 +13,25 @@ class PartyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function test()
+     {
+        $partySet = Party::all(['id']);
+
+        $newList = [];
+        
+        foreach($partySet as $party)
+        {
+            $newList[] = $party['id'];
+        }
+
+
+        dd($newList);
+
+     }
+
+
+
     public function index()
     {
         $partylist = Party::where('status',1)->paginate(4);
@@ -24,8 +43,6 @@ class PartyController extends Controller
             });
 
         return response($partylist,200);
-
-
     }
 
     /**

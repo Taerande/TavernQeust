@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CharacterSeeder::class,
             PartySeeder::class,
+            ScheduleSeeder::class,
         ]);
     }
 }

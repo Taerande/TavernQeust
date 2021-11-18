@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCharactersTable extends Migration
+class CreateSchedulesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateCharactersTable extends Migration
      */
     public function up()
     {
-        Schema::create('characters', function (Blueprint $table) {
+        Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('game_id');
-            $table->string('name');
-            $table->string('spec');
-            $table->text('description')->nullable();
-            $table->tinyInteger('status')->default('1');
+            $table->foreignId('scan_id')->nullable();
+            $table->foreignId('party_id')->nullable();
+            $table->foreignId('mercenary_id')->nullable();
+            $table->dateTime('start');
+            $table->dateTime('end');
+
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateCharactersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('characters');
+        Schema::dropIfExists('schedules');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiTokennController;
+use App\Http\Controllers\PartyController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,8 @@ use Illuminate\Validation\ValidationException;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/test',[PartyController::class,'test']);
 
 Auth::routes();
 

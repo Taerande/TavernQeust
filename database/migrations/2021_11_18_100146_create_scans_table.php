@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePartiesTable extends Migration
+class CreateScansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,18 @@ class CreatePartiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('parties', function (Blueprint $table) {
+        Schema::create('scans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('game_id');
-            $table->string('title',100);
+            $table->foreignId('character_id');
+            $table->tinyInteger('status');
+            $table->string('dungeon')->nullable();
+            $table->string('goal')->nullable();
             $table->text('description')->nullable();
-            $table->string('dungeon');
-            $table->string('difficulty');
-            $table->string('goal');
-            $table->string('recruit');
             $table->unsignedDecimal('reward', 12, 0)->nullable();
-            $table->tinyInteger('status')->default('1'); // active = 1, inactive = -1 ,pause = 0;
-
             $table->timestamps();
         });
     }
+    // 1: activated, 0:deactivated
 
     /**
      * Reverse the migrations.
@@ -37,6 +33,6 @@ class CreatePartiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parties');
+        Schema::dropIfExists('scans');
     }
 }

@@ -28,4 +28,8 @@ class Character extends Model
     {
         return $this->belongsTo(Game::class,'game_id');
     }
+    public function scans()
+    {
+        return $this->hasMany(Scan::class);
+    }
 }
