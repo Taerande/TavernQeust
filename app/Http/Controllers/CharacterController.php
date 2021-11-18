@@ -48,12 +48,13 @@ class CharacterController extends Controller
             'game_id' => 'required',
             'name' => 'required',
             'description' => 'nullable',
+            'server_faction' => 'nullable',
             'spec' => 'required',
         ]);
 
         auth()->user()->characters()->create($data);
         
-        $ownCharacter = auth()->user()->characters()->orderByDesc('created_at')->first();
+        $ownCharacter = auth()->user()->characters()->with('users')->orderByDesc('created_at')->first();
         
 
         return response($ownCharacter);

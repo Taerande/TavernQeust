@@ -19,6 +19,7 @@ class CreateCharactersTable extends Migration
             $table->foreignId('game_id');
             $table->string('name');
             $table->string('spec');
+            $table->string('server_faction')->nullable();
             $table->text('description')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
