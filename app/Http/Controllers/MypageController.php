@@ -32,7 +32,7 @@ class MypageController extends Controller
     }
     public function character()
     {
-        $CharacterInfo = Auth::user()->characters()->with(['users','games'])->get();
+        $CharacterInfo = Auth::user()->characters()->with(['users','games','scans'])->get();
 
         return $CharacterInfo;
 

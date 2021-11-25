@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Party extends Model
 {
     use HasFactory;
+
+    protected $guarded = [
+    ];
+
     
     public function users()
     {
@@ -19,11 +23,6 @@ class Party extends Model
         return $this->belongsTo(Game::class,'game_id');
     }
 
-    public function characters()
-    {
-        return $this->belongsToMany(Character::class)->withPivot(['grade','status','apply'])->withTimestamps();
-    }
-    
     public function schedules()
     {
         return $this->hasMany(Schedule::class);

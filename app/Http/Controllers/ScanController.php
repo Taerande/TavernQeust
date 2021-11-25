@@ -35,7 +35,18 @@ class ScanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = request()->validate([
+            'character_id' => 'required',
+            'status' => 'required',
+            'title' => 'nullable',
+            'dungeon' => 'nullable',
+            'reward' => 'nullable',
+        ]);
+
+        auth()->user()->chararacters()->scans()->create($data);
+
+        
+
     }
 
     /**

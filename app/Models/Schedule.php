@@ -10,8 +10,12 @@ class Schedule extends Model
     use HasFactory;
 
     protected $fillable = [
-        'password',
         'end',
         'start',
     ];
+
+    public function parties()
+    {
+        return $this->belongsToMany(Party::class)->withPivot(['start','end'])->withTimestamps();
+    }
 }

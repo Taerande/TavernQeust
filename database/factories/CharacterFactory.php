@@ -20,10 +20,11 @@ class CharacterFactory extends Factory
                 $userCount = User::count();
                 return rand(1,$userCount);
             },
-            'game_id' => Game::where('name','World Of Warcraft')->first()->id,
+            'game_id' => Game::where('name','World_Of_Warcraft')->first()->id,
             'name' => $this->faker->name(),
             'spec' => $this->faker->randomElement(
-                ['수드','조드','야드','회드','정술','복술','고술','신기','징기','보기','분전','무전','전탱','악딜','악탱','양조','풍운','운무','화법','냉법','비법','야냥','생냥','격냥','혈죽','부죽','냉죽','고흑','악흑','파흑','신사','수사','암사','무법','잠행','암살'])
+                ['deathknight-blood','deathknight-frost','deathknight-unholy','deathknight-all','demonhunter-all','demonhunter-havoc','demonhunter-vengeance','druid-all','druid-balance','druid-feral','druid-guardian','druid-restoration','hunter-all','hunter-beastmastery','hunter-markmanship','hunter-survival','mage-all','mage-fire','mage-frost','mage-arcane','monk-all','monk-brewmaster','monk-windwalker','monk-mistweaver','paladin-all','paladin-holy','paladin-protection','paladin-retribution','priest-all','priest-discipline','priest-holy','priest-shadow','rogue-all','rogue-assasination','rogue-subtlety','rouge-outlaw','shaman-all','shaman-elemental','shaman-enhancement','shaman-restoration','warlock-all','warlock-affliction','warlock-demonology','warlock-destruction','warrior-all','warrior-protection','warrior-fury'
+                ])
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Party;
 use App\Models\User;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Http\Request;
 
 class PartyController extends Controller
@@ -30,18 +31,26 @@ class PartyController extends Controller
 
      }
 
+     public function status(Request $request)
+    {
+
+        $data = request()->validate([
+            'id' => 'integer',
+            'status' => 'integer'
+        ]);
+
+        auth()->user()->parties()->where('id',$request->id)->update($data);
+
+
+        return response($data);
+    }
+
 
 
     public function index()
     {
-        $partylist = Party::where('status',1)->paginate(4);
-        $partylist->
-            map(function ($party){
-                $party['spec'] = $party['recruit'];
-                unset($party['recruit']);
-                $party['author'] = User::find($party['user_id'])->name;
-            });
-
+        $partylist = Party::where('status',1)->with('games','users')->paginate(4);
+ 
         return response($partylist,200);
     }
 
@@ -63,7 +72,45 @@ class PartyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $user_id = auth()->user()->id;
+
+
+        $data = request()->validate([
+            'user_id' => '',
+            'game_id' => '',
+            'dungeon' => '',
+            'difficulty' => '',
+            'goal' => '',
+            'title' => '',
+            'description' => '',
+            'recruit' => '',
+            'reward' =>'',
+            'status' =>'',
+        ]);
+        $data['user_id'] = $user_id;
+
+        auth()->user()->parties()->create($data);
+
+        $createdParty = Party::where('user_id',$user_id)->orderByDesc('created_at')->first();
+
+        foreach($request->schedule as $schedule ){
+            if($schedule['start'] > $schedule['end']){
+                $date = date_create($schedule['date'])->modify('+1 day');
+                $dateForamted = date_format($date, "Y-m-d");
+            }else{
+                $dateForamted = $schedule['date'];
+            };
+
+            $createdParty->schedules()->create([
+                'party_id' => $createdParty->id,
+                'start' => $schedule['date']." ".$schedule['start'],
+                'end' => $dateForamted." ".$schedule['end']
+            ]);
+        };
+
+        
+        return response('success',200);
     }
 
     /**
@@ -74,11 +121,7 @@ class PartyController extends Controller
      */
     public function show(Party $party, $id)
     {
-        $partyDetail = Party::find($id);
-        $partyDetail['spec'] = $partyDetail['recruit'];
-        unset($partyDetail['recruit']);
-        $partyDetail['author'] = User::find($partyDetail['user_id'])->name;
-
+        $partyDetail = Party::where('id',$id)->with('games','users')->get();
 
         return $partyDetail;
     }

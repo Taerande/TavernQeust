@@ -39,7 +39,6 @@ class CharacterController extends Controller
     public function store(Request $request)
     {
 
-
         $newSpec = implode("",$request['spec']);
 
         $request['spec'] = $newSpec;
@@ -54,7 +53,7 @@ class CharacterController extends Controller
 
         auth()->user()->characters()->create($data);
         
-        $ownCharacter = auth()->user()->characters()->with('users')->orderByDesc('created_at')->first();
+        $ownCharacter = auth()->user()->characters()->with(['users','games','scans'])->orderByDesc('created_at')->first();
         
 
         return response($ownCharacter);
@@ -78,8 +77,8 @@ class CharacterController extends Controller
     {
 
         $data = request()->validate([
-            'id' => '',
-            'status' => ''
+            'id' => 'integer',
+            'status' => 'integer'
         ]);
 
         auth()->user()->characters()->where('id',$request->id)->update($data);

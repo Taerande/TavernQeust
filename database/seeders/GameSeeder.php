@@ -15,15 +15,15 @@ class GameSeeder extends Seeder
     public function run()
     {
         Game::create([
-            'name' => 'World Of Warcraft',
+            'name' => 'World_Of_Warcraft',
             'genre' => 'MMORPG',
         ]);
         Game::create([
-            'name' => 'Lost Ark',
+            'name' => 'Lost_Ark',
             'genre' => 'MMORPG',
         ]);
         Game::create([
-            'name' => 'League Of Legends',
+            'name' => 'League_Of_Legends',
             'genre' => 'AOS',
         ]);
     }

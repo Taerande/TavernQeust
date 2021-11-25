@@ -24,6 +24,10 @@ class Character extends Model
     {
         return $this->hasOne(Mercenary::class);
     }
+    public function parties()
+    {
+        return $this->belongsToMany(Party::class)->withPivot(['grade','status','apply','reject'])->withTimestamps();
+    }
     public function games()
     {
         return $this->belongsTo(Game::class,'game_id');

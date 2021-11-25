@@ -7,6 +7,7 @@ use App\Http\Controllers\MypageController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
+use App\Models\Character;
 use Illuminate\Routing\RouteGroup;
 /*
 |--------------------------------------------------------------------------
@@ -30,12 +31,22 @@ Route::group(['prefix' => 'mypage', 'middleware' => 'auth:sanctum'], function(){
     ->name('mypage.quest');
 });
 
+
 // My Character
 Route::group(['prefix' => 'character', 'middleware' => 'auth:sanctum'], function(){
-    Route::post('store',[CharacterController::class,'store'] )
-    ->name('char.store');
-    Route::patch('status',[CharacterController::class,'status'] )
+    Route::patch('status',[CharacterController::class,'status'])
     ->name('char.status');
+    Route::post('store',[CharacterController::class,'store'])
+    ->name('char.store');
+});
+
+//My Party
+
+Route::group(['prefix' => 'party', 'middleware' => 'auth:sanctum'], function(){
+    Route::patch('status',[PartyController::class,'status'])
+    ->name('party.status');
+    Route::post('store',[PartyController::class,'store'])
+    ->name('party.store');
 });
 
 // User정보 가져오기

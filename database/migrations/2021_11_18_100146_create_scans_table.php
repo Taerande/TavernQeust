@@ -17,6 +17,7 @@ class CreateScansTable extends Migration
             $table->id();
             $table->foreignId('character_id');
             $table->tinyInteger('status');
+            $table->string('title')->nullable();
             $table->string('dungeon')->nullable();
             $table->string('goal')->nullable();
             $table->text('description')->nullable();
