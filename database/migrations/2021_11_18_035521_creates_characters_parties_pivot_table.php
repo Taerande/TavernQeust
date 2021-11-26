@@ -18,7 +18,7 @@ class CreatesCharactersPartiesPivotTable extends Migration
             $table->foreignId('party_id');
             $table->foreignId('character_id');
             $table->enum('grade',['leader','officer','member']);
-            $table->enum('stauts',['1','0','-1'])->default('0');
+            $table->enum('status',['1','0','-1'])->default('0');
             $table->text('apply')->nullable();
             $table->text('reject')->nullable();
             $table->string('memo')->nullable();

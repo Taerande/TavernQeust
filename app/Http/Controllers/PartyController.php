@@ -109,6 +109,12 @@ class PartyController extends Controller
             ]);
         };
 
+        $createdParty->characters()->syncWithoutDetaching([
+            $request->char_id => [
+                'grade' => 'leader'
+            ]
+            ]);
+
         
         return response('success',200);
     }
@@ -121,9 +127,12 @@ class PartyController extends Controller
      */
     public function show(Party $party, $id)
     {
-        $partyDetail = Party::where('id',$id)->with('games','users')->get();
+        $partyDetail = Party::where('id',$id)->with('games','users')->first();
 
-        return $partyDetail;
+        $mebers = $partyDetail->characters()->get();
+
+        return ['partyInfo' => $partyDetail,
+            'memberInfo' => $mebers];
     }
 
     /**
