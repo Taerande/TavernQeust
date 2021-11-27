@@ -7,6 +7,7 @@ use App\Http\Controllers\MypageController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ScheduleController;
 use App\Models\Character;
 use Illuminate\Routing\RouteGroup;
@@ -32,6 +33,13 @@ Route::group(['prefix' => 'mypage', 'middleware' => 'auth:sanctum'], function(){
     ->name('mypage.quest');
     Route::get('schedule/index',[ScheduleController::class,'index'])
     ->name('schedule.index');
+});
+
+Route::group(['prefix' => 'member', 'middleware' => 'auth:sanctum'], function(){
+    Route::post('apply',[MemberController::class,'apply'] )->name('member.apply');
+    Route::post('reject',[MemberController::class,'apply'] )->name('member.reject');
+    Route::patch('status',[MemberController::class,'status'] )->name('member.status');
+    Route::patch('grade',[MemberController::class,'grade'] )->name('member.grade');
 });
 
 

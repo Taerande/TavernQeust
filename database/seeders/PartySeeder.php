@@ -16,18 +16,18 @@ class PartySeeder extends Seeder
      */
     public function run()
     {
-        Party::create([
-            'user_id' => 1,
-            'game_id' => 1,
-            'title' => 'Hello World',
-            'description' => '실바나스 직 가실 분 모십니다.',
-            'dungeon' => '지배의 성소',
-            'difficulty' => 'mythic',
-            'goal' => '10',
-            'recruit' => 'druid-balance'
-        ]);
+        // Party::create([
+        //     'user_id' => 1,
+        //     'game_id' => 1,
+        //     'title' => 'Hello World',
+        //     'description' => '실바나스 직 가실 분 모십니다.',
+        //     'dungeon' => '지배의 성소',
+        //     'difficulty' => 'mythic',
+        //     'goal' => '10',
+        //     'recruit' => 'druid-balance'
+        // ]);
 
-        Party::factory()->times(25)->create()
+        Party::factory()->times(40)->create()
         ->each(function ($party){
 
             $user_id = $party->user_id;

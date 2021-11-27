@@ -20,6 +20,6 @@ class ScheduleSeeder extends Seeder
             'start' => '2021-11-18 22:14:00',
             'end' => '2021-11-20 08:12:00',
         ]);
-        Schedule::factory()->times(29)->create();
+        Schedule::factory()->times(100)->create();
     }
 }

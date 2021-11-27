@@ -129,7 +129,7 @@ class PartyController extends Controller
     {
         $partyDetail = Party::where('id',$id)->with('games','users')->first();
 
-        $mebers = $partyDetail->characters()->get();
+        $mebers = $partyDetail->characters()->wherePivot('status','!=','-2')->orderBy('grade','asc')->get();
 
         return ['partyInfo' => $partyDetail,
             'memberInfo' => $mebers];
