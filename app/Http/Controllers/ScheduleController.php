@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Character;
+use App\Models\Party;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ScheduleController extends Controller
 {
@@ -12,9 +16,25 @@ class ScheduleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        
+        // my Schedule
+        $parties = Auth::user()->parties()->get(['id']);
+
+        $data = [];
+
+        foreach($parties as $party){
+            $schedule = Schedule::where('party_id',$party['id'])->get(['party_id','start','end']);
+            $data[] = $schedule;
+        };
+
+
+        dd($user);
+
+        dd($user->partySchedules()->get());
+
+
     }
 
     /**

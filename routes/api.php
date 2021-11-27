@@ -7,6 +7,7 @@ use App\Http\Controllers\MypageController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ScheduleController;
 use App\Models\Character;
 use Illuminate\Routing\RouteGroup;
 /*
@@ -19,7 +20,7 @@ use Illuminate\Routing\RouteGroup;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-// Myapge
+// Myapge & My Informations
 Route::group(['prefix' => 'mypage', 'middleware' => 'auth:sanctum'], function(){
     Route::get('dashbaord',[MypageController::class,'dashbaord'] )
     ->name('mypage.dashboard');
@@ -29,6 +30,8 @@ Route::group(['prefix' => 'mypage', 'middleware' => 'auth:sanctum'], function(){
     ->name('mypage.character');
     Route::get('quest',[MypageController::class,'quest'])
     ->name('mypage.quest');
+    Route::get('schedule/index',[ScheduleController::class,'index'])
+    ->name('schedule.index');
 });
 
 

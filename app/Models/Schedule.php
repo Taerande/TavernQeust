@@ -16,6 +16,6 @@ class Schedule extends Model
 
     public function parties()
     {
-        return $this->belongsToMany(Party::class)->withPivot(['start','end'])->withTimestamps();
+        return $this->belongsTo(Party::class,'party_id')->withPivot(['start','end'])->withTimestamps();
     }
 }

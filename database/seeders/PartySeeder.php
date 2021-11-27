@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
+use App\Models\Character;
 use App\Models\Party;
 use Illuminate\Database\Seeder;
 
@@ -24,6 +26,28 @@ class PartySeeder extends Seeder
             'goal' => '10',
             'recruit' => 'druid-balance'
         ]);
-        Party::factory()->times(25)->create();
+
+        Party::factory()->times(25)->create()
+        ->each(function ($party){
+
+            $user_id = $party->user_id;
+
+            $randCharacter = Character::where('user_id','=',$user_id)->inRandomOrder()->first();
+
+            if(!empty($randCharacter)){
+            $party->characters()->where('user_id',$user_id)->syncWithoutDetaching([
+                $randCharacter->id => ['grade' => 'leader']]);
+            };
+
+
+            $charSet = Character::where('user_id','!=',$user_id)->get('id')->random(rand(2,7));
+
+            foreach($charSet as $char){
+                $party->characters()->syncWithoutDetaching([$char->id => ['grade' => 'member']]);
+            };
+            
+            
+        });
+
     }
 }
