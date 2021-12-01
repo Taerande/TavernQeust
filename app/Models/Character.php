@@ -26,7 +26,7 @@ class Character extends Model
     }
     public function parties()
     {
-        return $this->belongsToMany(Party::class)->withPivot(['grade','status','apply','reject','memo'])->withTimestamps();
+        return $this->belongsToMany(Party::class)->withPivot(['grade','status','apply','reject','memo'])->with(['schedules'])->withTimestamps();
     }
     public function games()
     {

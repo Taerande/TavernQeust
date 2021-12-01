@@ -18,7 +18,7 @@ class CharacterFactory extends Factory
         return [
             'user_id' => function(){
                 $userCount = User::count();
-                return rand(1,40);
+                return rand(1,$userCount);
             },
             'game_id' => Game::where('name','World_Of_Warcraft')->first()->id,
             'name' => $this->faker->name(),

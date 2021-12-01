@@ -21,7 +21,7 @@ class CreatePartiesTable extends Migration
             $table->text('description')->nullable();
             $table->string('dungeon');
             $table->string('difficulty');
-            $table->string('goal');
+            $table->integer('goal');
             $table->string('recruit');
             $table->unsignedDecimal('reward', 12, 0)->nullable();
             $table->tinyInteger('status')->default('1'); // active = 1, inactive = -1 ,pause = 0;

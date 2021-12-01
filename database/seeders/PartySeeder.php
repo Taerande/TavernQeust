@@ -40,7 +40,7 @@ class PartySeeder extends Seeder
             };
 
 
-            $charSet = Character::where('user_id','!=',$user_id)->get('id')->random(rand(2,7));
+            $charSet = Character::where('user_id','!=',$user_id)->get('id')->random(rand(0,5));
 
             foreach($charSet as $char){
                 $party->characters()->syncWithoutDetaching([$char->id => ['grade' => 'member']]);

@@ -15,19 +15,38 @@ class PartyController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function test()
+     public function test(Request $request)
      {
-        $partySet = Party::all(['id']);
 
-        $newList = [];
-        
-        foreach($partySet as $party)
-        {
-            $newList[] = $party['id'];
+        function goalOperator( $data ){
+            switch($data){
+                case 'gt': return '>';
+                case 'lt': return '<';
+                case 'gte': return '>=';
+                case 'lte': return '<=';
+                case 'eq': return '=';
+                case 'neq': return '!=';
+            };
         }
 
+        
 
-        dd($newList);
+
+        $partyFiltered = Party::where('status',1)
+        ->where('recruit','like','%'.request()->spec.'%')
+        ->where('difficulty','like','%'.request()->diff.'%')
+        ->where(function($query){
+            if(!empty(request()->goal)){
+                $goalOperator = goalOperator(request()->oper);
+                $query->where('goal',$goalOperator,request()->goal);
+            }else{
+                $query;
+            }
+        })
+        ->with('games','users')->paginate(4);
+
+       
+        dd($partyFiltered, goalOperator(request()->oper),request()->goal,!empty(request()->goal));
 
      }
 
@@ -47,11 +66,36 @@ class PartyController extends Controller
 
 
 
-    public function index()
+    public function index(Request $request)
     {
-        $partylist = Party::where('status',1)->with('games','users')->paginate(4);
- 
-        return response($partylist,200);
+        function goalOperator( $data ){
+            switch($data){
+                case 'gt': return '>';
+                case 'lt': return '<';
+                case 'gte': return '>=';
+                case 'lte': return '<=';
+                case 'eq': return '=';
+                case 'neq': return '!=';
+            };
+        }
+
+        
+
+
+        $partyFiltered = Party::where('status',1)
+        ->where('recruit','like','%'.request()->spec.'%')
+        ->where('difficulty','like','%'.request()->diff.'%')
+        ->where(function($query){
+            if(!empty(request()->goal)){
+                $goalOperator = goalOperator(request()->oper);
+                $query->where('goal',$goalOperator,request()->goal);
+            }else{
+                $query;
+            }
+        })
+        ->with('games','users')->paginate(4)->appends(request()->query());
+
+        return response($partyFiltered,200);
     }
 
     /**

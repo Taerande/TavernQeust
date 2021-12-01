@@ -25,14 +25,21 @@ class MypageController extends Controller
     }
     public function party()
     {
-        $partyInfo = Auth::user()->parties()->with(['users','games','schedules'])->get();
+        $user = Auth::user();
+        $partyInfo = $user->parties()->with(['users','games','schedules'])->get();
+        $partParty = $user->characters()->with(['parties','games'])->get();
 
-        return $partyInfo;
+        return response([
+            'owendParty' => $partyInfo,
+            'partParty' => $partParty,
+
+    ],200);
 
     }
     public function character()
     {
-        $CharacterInfo = Auth::user()->characters()->with(['users','games','scans'])->get();
+        $user = Auth::user();
+        $CharacterInfo =  $user->characters()->with(['users','games','scans'])->get();
 
         return $CharacterInfo;
 
