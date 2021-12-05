@@ -6,6 +6,7 @@ use App\Models\Party;
 use App\Models\User;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PartyController extends Controller
 {

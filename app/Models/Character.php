@@ -9,12 +9,9 @@ class Character extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'game_id',
-        'name',
-        'dsecription',
-        'spec',
+    protected $guarded = [
     ];
+
 
     public function users()
     {

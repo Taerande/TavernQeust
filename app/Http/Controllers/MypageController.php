@@ -27,11 +27,33 @@ class MypageController extends Controller
     {
         $user = Auth::user();
         $partyInfo = $user->parties()->with(['users','games','schedules'])->get();
-        $partParty = $user->characters()->with(['parties','games'])->get();
+        $characters = $user->characters()->with(['parties','games'])->get();
+
+        $partPartySet = [];
+        $appliedPartySet = [];
+
+        
+        foreach($characters as $char)
+        {
+            $partyAll = $char->parties()->with(['users','games','schedules'])->get();
+            foreach($partyAll as $partParty)
+            {
+                $is_manager = in_array($partParty->pivot->grade,['leader','officer']);
+                $is_applicant = in_array($partParty->pivot->grade,['applicant']);
+                if(!$is_manager)
+                {
+                    $partPartySet[] = $partParty;
+                }elseif($is_applicant)
+                {
+                    $appliedPartySet[] = $partParty;
+                }
+            }
+        }
 
         return response([
             'owendParty' => $partyInfo,
-            'partParty' => $partParty,
+            'partParty' => $partPartySet,
+            'appliedParty' => $appliedPartySet,
 
     ],200);
 

@@ -69,13 +69,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
 
+// Member Controller
 
 
 // PartyInfo
 Route::prefix('party')->group(function () {
     Route::get('list', [PartyController::class,'index'])->name('party.list');
     Route::get('{id}', [PartyController::class,'show'])->name('party.show');
-
+    Route::group(['prefix' => '{id}/member', 'middleware' => 'auth:sanctum'],function(){
+        Route::get('',[MemberController::class,'show']);
+        Route::post('',[MemberController::class,'apply']);
+        Route::patch('',[MemberController::class,'update']);
+        Route::delete('',[MemberController::class,'destory']);
+    });
 });
 
 // UserInfo
