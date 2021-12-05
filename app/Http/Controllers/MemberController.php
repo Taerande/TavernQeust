@@ -105,7 +105,6 @@ class MemberController extends Controller
                         'status' => $request->status,
                         'grade' => $request->grade,
                         'reject' => $request->reject,
-                        'memo' => $request->memo,
                     ]
                     ]);
             }
@@ -115,7 +114,6 @@ class MemberController extends Controller
                 $charTarget->parties()->syncWithoutDetaching([
                     $id =>[
                         'status' => $request->status,
-                        'memo' => $request->memo,
                     ]
                     ]);
             }
@@ -124,8 +122,40 @@ class MemberController extends Controller
 
 
     }
-    public function destroy(Request $request, $id)
+    public function detach(Request $request, $id)
     {
+
+        $request->validate([
+            'char_id' => 'required',
+        ]);
+
+        $partyTarget = Party::find($id);
+        $charTarget = Character::find($request->char_id);
+
+        //파티와 요청하는 캐릭터가 연관되어 있는지 판단
+        $partyCorrect = $partyTarget->characters()->where('character_id',$request->char_id)->get();
+        $is_involved = $partyCorrect->count()>0;
+
+        if($is_involved){
+            // auth()->user()와 해당 파티의 상관관계 확인
+            // party->character->user_id = auth()->id
+            
+            $authChar = $partyTarget->characters()->where('user_id',auth()->user()->id)->get();
+
+            $newCharSet = [];
+            foreach($authChar as $charId){
+                $newCharSet[] = $charId->pivot->grade;
+                $newCharSet[] = $charId->id;
+            };
+
+            //권한 확인, is_manager, is_req, auth
+            $is_manager = !empty(array_intersect(['leader','officer'],$newCharSet));
+
+            if($is_manager)
+            {
+                $charTarget->parties()->detach($id);
+            }
+        }
 
 
     }

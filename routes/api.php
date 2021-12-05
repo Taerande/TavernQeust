@@ -80,7 +80,7 @@ Route::prefix('party')->group(function () {
         Route::get('',[MemberController::class,'show']);
         Route::post('',[MemberController::class,'apply']);
         Route::patch('',[MemberController::class,'update']);
-        Route::delete('',[MemberController::class,'destory']);
+        Route::post('/detach',[MemberController::class,'detach']);
     });
 });
 
