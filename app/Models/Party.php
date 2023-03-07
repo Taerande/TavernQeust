@@ -9,27 +9,26 @@ class Party extends Model
 {
     use HasFactory;
 
-    protected $guarded = [
-    ];
+    protected $guarded = [];
 
-    
+
     public function users()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function games()
     {
-        return $this->belongsTo(Game::class,'game_id');
+        return $this->belongsTo(Game::class, 'game_id');
     }
 
     public function characters()
     {
-        return $this->belongsToMany(Character::class)->withPivot(['grade','status','apply','reject','memo'])->withTimestamps();
+        return $this->belongsToMany(Character::class)->withPivot(['grade', 'status', 'memo'])->withTimestamps();
     }
 
     public function schedules()
     {
-        return $this->hasMany(Schedule::class,'party_id');
+        return $this->hasMany(Schedule::class, 'party_id');
     }
 }

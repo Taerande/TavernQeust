@@ -14,8 +14,8 @@ class CharacterController extends Controller
      */
     public function index()
     {
-        
-        $partylist = Character::where('status',1)->paginate(4);
+
+        $partylist = Character::where('status', 1)->paginate(4);
 
         return response($partylist);
     }
@@ -39,7 +39,7 @@ class CharacterController extends Controller
     public function store(Request $request)
     {
 
-        $newSpec = implode("",$request['spec']);
+        $newSpec = implode("", $request['spec']);
 
         $request['spec'] = $newSpec;
 
@@ -52,12 +52,11 @@ class CharacterController extends Controller
         ]);
 
         auth()->user()->characters()->create($data);
-        
-        $ownCharacter = auth()->user()->characters()->with(['users','games','scans'])->orderByDesc('created_at')->first();
-        
+
+        $ownCharacter = auth()->user()->characters()->with(['users', 'games', 'scans'])->orderByDesc('created_at')->first();
+
 
         return response($ownCharacter);
-
     }
 
     /**
@@ -68,8 +67,8 @@ class CharacterController extends Controller
      */
     public function show(Character $character, $id)
     {
-        
-        $characterDetail = Character::where('id',$id)->first();
+
+        $characterDetail = Character::where('id', $id)->first();
         return $characterDetail;
     }
 
@@ -81,7 +80,7 @@ class CharacterController extends Controller
             'status' => 'integer'
         ]);
 
-        auth()->user()->characters()->where('id',$request->id)->update($data);
+        auth()->user()->characters()->where('id', $request->id)->update($data);
 
 
         return response($data);
@@ -118,6 +117,6 @@ class CharacterController extends Controller
      */
     public function destroy(Character $character)
     {
-        //
+        $character->delete();
     }
 }

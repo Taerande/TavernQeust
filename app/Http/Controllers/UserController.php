@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Party;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -13,13 +14,15 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index( $id )
+    public function index(Request $request)
     {
-        $userInfo = User::find($id);
+        $userInfo = auth()->user();
 
-        return $userInfo;
+        $charSet = $userInfo->characters()->get(['id', 'name']);
+
+        return response(['userData' => $userInfo, 'charData' => $charSet]);
     }
-    public function indexAuth( Request $request )
+    public function indexAuth(Request $request)
     {
         dd($request);
         // $userInfo = User::find($id);
@@ -45,7 +48,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        
     }
 
     /**
@@ -56,20 +58,19 @@ class UserController extends Controller
      */
     public function show(User $user, $id)
     {
-        
-        $userInfo = User::find($id)->only(['id','email','name']);
 
-        $charInfo = User::find($id)->characters()->get(['game_id','name','spec']);
+        $userInfo = User::find($id)->only(['id', 'email', 'name']);
 
-        $partyInfo = Party::where('user_id',$id)->where('status',1)->get();
+        $charInfo = User::find($id)->characters()->get(['game_id', 'name', 'spec']);
 
-        $partyInfo->
-            map(function ($party){
-                $party['spec'] = $party['recruit'];
-                unset($party['recruit']);
-            });
+        $partyInfo = Party::where('user_id', $id)->where('status', 1)->get();
 
-        return response()->json([$userInfo,$charInfo,$partyInfo],200);
+        $partyInfo->map(function ($party) {
+            $party['spec'] = $party['recruit'];
+            unset($party['recruit']);
+        });
+
+        return response()->json([$userInfo, $charInfo, $partyInfo], 200);
     }
 
     /**

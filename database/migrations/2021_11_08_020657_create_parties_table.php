@@ -15,16 +15,11 @@ class CreatePartiesTable extends Migration
     {
         Schema::create('parties', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('game_id');
-            $table->string('title',100);
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('game_id')->constrained('games');;
+            $table->string('name', 50);
             $table->text('description')->nullable();
-            $table->string('dungeon');
-            $table->string('difficulty');
-            $table->integer('goal');
-            $table->string('recruit');
-            $table->unsignedDecimal('reward', 12, 0)->nullable();
-            $table->tinyInteger('status')->default('1'); // active = 1, inactive = -1 ,pause = 0;
+            $table->tinyInteger('status')->default(1); // active = 1, inactive = -1 ,pause = 0;
 
             $table->timestamps();
         });

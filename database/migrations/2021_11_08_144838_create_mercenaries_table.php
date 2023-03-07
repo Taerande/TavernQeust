@@ -15,10 +15,10 @@ class CreateMercenariesTable extends Migration
     {
         Schema::create('mercenaries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('character_id');
-            $table->foreignId('game_id');
+            $table->foreignId('character_id')->constrained('characters');;
+            $table->foreignId('game_id')->constrained('games');;
             $table->string('author');
-            $table->char('title',100);
+            $table->char('title', 100);
             $table->text('description')->nullable();
             $table->string('dungeon');
             $table->string('difficulty');

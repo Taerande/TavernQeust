@@ -16,42 +16,12 @@ class PartyController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function test(Request $request)
-     {
+    public function test(Request $request)
+    {
+        return response(['message' => 'hello', 'request' => $request], 200);
+    }
 
-        function goalOperator( $data ){
-            switch($data){
-                case 'gt': return '>';
-                case 'lt': return '<';
-                case 'gte': return '>=';
-                case 'lte': return '<=';
-                case 'eq': return '=';
-                case 'neq': return '!=';
-            };
-        }
-
-        
-
-
-        $partyFiltered = Party::where('status',1)
-        ->where('recruit','like','%'.request()->spec.'%')
-        ->where('difficulty','like','%'.request()->diff.'%')
-        ->where(function($query){
-            if(!empty(request()->goal)){
-                $goalOperator = goalOperator(request()->oper);
-                $query->where('goal',$goalOperator,request()->goal);
-            }else{
-                $query;
-            }
-        })
-        ->with('games','users')->paginate(4);
-
-       
-        dd($partyFiltered, goalOperator(request()->oper),request()->goal,!empty(request()->goal));
-
-     }
-
-     public function status(Request $request)
+    public function status(Request $request)
     {
 
         $data = request()->validate([
@@ -59,7 +29,7 @@ class PartyController extends Controller
             'status' => 'integer'
         ]);
 
-        auth()->user()->parties()->where('id',$request->id)->update($data);
+        auth()->user()->parties()->where('id', $request->id)->update($data);
 
 
         return response($data);
@@ -69,34 +39,41 @@ class PartyController extends Controller
 
     public function index(Request $request)
     {
-        function goalOperator( $data ){
-            switch($data){
-                case 'gt': return '>';
-                case 'lt': return '<';
-                case 'gte': return '>=';
-                case 'lte': return '<=';
-                case 'eq': return '=';
-                case 'neq': return '!=';
+        function goalOperator($data)
+        {
+            switch ($data) {
+                case 'gt':
+                    return '>';
+                case 'lt':
+                    return '<';
+                case 'gte':
+                    return '>=';
+                case 'lte':
+                    return '<=';
+                case 'eq':
+                    return '=';
+                case 'neq':
+                    return '!=';
             };
         }
 
-        
 
 
-        $partyFiltered = Party::where('status',1)
-        ->where('recruit','like','%'.request()->spec.'%')
-        ->where('difficulty','like','%'.request()->diff.'%')
-        ->where(function($query){
-            if(!empty(request()->goal)){
-                $goalOperator = goalOperator(request()->oper);
-                $query->where('goal',$goalOperator,request()->goal);
-            }else{
-                $query;
-            }
-        })
-        ->with('games','users')->paginate(4)->appends(request()->query());
 
-        return response($partyFiltered,200);
+        $partyFiltered = Party::where('status', 1)
+            // ->where('recruit', 'like', '%' . request()->spec . '%')
+            // ->where('difficulty', 'like', '%' . request()->diff . '%')
+            // ->where(function ($query) {
+            //     if (!empty(request()->goal)) {
+            //         $goalOperator = goalOperator(request()->oper);
+            //         $query->where('goal', $goalOperator, request()->goal);
+            //     } else {
+            //         $query;
+            //     }
+            // })
+            ->with('games', 'users')->paginate(12)->appends(request()->query());
+
+        return response($partyFiltered, 200);
     }
 
     /**
@@ -130,27 +107,27 @@ class PartyController extends Controller
             'title' => '',
             'description' => '',
             'recruit' => '',
-            'reward' =>'',
-            'status' =>'',
+            'reward' => '',
+            'status' => '',
         ]);
         $data['user_id'] = $user_id;
 
         auth()->user()->parties()->create($data);
 
-        $createdParty = Party::where('user_id',$user_id)->orderByDesc('created_at')->first();
+        $createdParty = Party::where('user_id', $user_id)->orderByDesc('created_at')->first();
 
-        foreach($request->schedule as $schedule ){
-            if($schedule['start'] > $schedule['end']){
+        foreach ($request->schedule as $schedule) {
+            if ($schedule['start'] > $schedule['end']) {
                 $date = date_create($schedule['date'])->modify('+1 day');
                 $dateForamted = date_format($date, "Y-m-d");
-            }else{
+            } else {
                 $dateForamted = $schedule['date'];
             };
 
             $createdParty->schedules()->create([
                 'party_id' => $createdParty->id,
-                'start' => $schedule['date']." ".$schedule['start'],
-                'end' => $dateForamted." ".$schedule['end']
+                'start' => $schedule['date'] . " " . $schedule['start'],
+                'end' => $dateForamted . " " . $schedule['end']
             ]);
         };
 
@@ -158,10 +135,10 @@ class PartyController extends Controller
             $request->char_id => [
                 'grade' => 'leader'
             ]
-            ]);
+        ]);
 
-        
-        return response('success',200);
+
+        return response('success', 200);
     }
 
     /**
@@ -172,12 +149,14 @@ class PartyController extends Controller
      */
     public function show(Party $party, $id)
     {
-        $partyDetail = Party::where('id',$id)->with('games','users')->first();
+        $partyDetail = Party::where('id', $id)->with('games', 'users')->first();
 
-        $mebers = $partyDetail->characters()->wherePivot('status','!=','-2')->orderBy('grade','asc')->get();
+        $mebers = $partyDetail->characters()->wherePivot('status', '!=', '-2')->orderBy('grade', 'asc')->get();
 
-        return ['partyInfo' => $partyDetail,
-            'memberInfo' => $mebers];
+        return [
+            'partyInfo' => $partyDetail,
+            'memberInfo' => $mebers
+        ];
     }
 
     /**

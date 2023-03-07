@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -38,4 +42,35 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function login(Request $request)
+    {
+        // Validation
+        $fields = $request->validate([
+            'email' => 'required|string',
+            'password' => 'required|string'
+        ]);
+        // Check User
+        $user = User::where('email', '=', $request->email)->first();
+
+        // Check Password
+        if (!$user || !Hash::check($fields['password'], $user->password)) {
+            return response([
+                'message' => 'Login data is invalid!'
+            ], 401);
+        }
+        $token = $user->createToken('projecttq')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token,
+        ];
+        return response($response, 201);
+    }
+    public function logout(Request $request)
+    {
+        // Validation
+        $request->user()->currentAccessToken()->delete();
+
+        return response(['message' => 'logout Success'], 201);
+    }
 }

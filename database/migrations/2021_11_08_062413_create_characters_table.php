@@ -15,13 +15,12 @@ class CreateCharactersTable extends Migration
     {
         Schema::create('characters', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('game_id');
+            $table->foreignId('user_id')->constrained('users');;
+            $table->foreignId('game_id')->constrained('games');;
             $table->string('name');
-            $table->string('spec');
+            // $table->string('spec');
             $table->string('server_faction')->nullable();
             $table->text('description')->nullable();
-            $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
     }

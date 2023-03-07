@@ -19,8 +19,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
         'password',
+        'photoUrl',
     ];
 
     /**
@@ -51,6 +51,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Party::class, 'user_id', 'id');
     }
+    // public function schedules()
+    // {
+    //     return $this->hasMany(Schedule::class, 'user_id', 'id');
+    // }
 
     public function characters()
     {
@@ -61,5 +65,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Mercenary::class, 'user_id', 'id');
     }
-
 }

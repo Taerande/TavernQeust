@@ -19,12 +19,16 @@ class LoginController extends Controller
         {
             return $validated;
         }
-
-        return Socialite::driver($provider)->stateless()->redirect();
+        
+        $url = Socialite::driver($provider)->stateless()->redirect()->getTargetUrl();
+        
+        return response()->json(['url' => $url]);
+        // return Socialite::driver($provider)->stateless()->redirect();
     }
 
     public function handleProviderCallback($provider)
     {
+        // return response(['resp'=>$provider,'message' => 'hi'],200);
         $validated = $this->validateProvider($provider);
         if(!is_null($validated))
         {
@@ -70,18 +74,21 @@ class LoginController extends Controller
 
         Auth::login($userCreated);
 
-        $response = response(['token' => $token],200)->withCookie('api_token', $token, 45000);
 
-        return $response;
+        return redirect()->away('http://localhost:8080')->with([
+            'message' => 'successs',
+            'data' => $userCreated,
+            'access_token' => $token
+        ]);
+
 
         // return response()->json([
         //     'message' => 'successs',
         //     'data' => $userCreated,
-        //     'Token' => $token
-        // ],200);
+        //     'access_token' => $token
+        // ]);
 
     }
-    
     protected function validateProvider($provider)
     {
         if(!in_array($provider,['google','kakao','naver']))

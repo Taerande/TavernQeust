@@ -15,16 +15,14 @@ class CreatesCharactersPartiesPivotTable extends Migration
     {
         Schema::create('character_party', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('party_id');
-            $table->foreignId('character_id');
-            $table->enum('grade',['leader','officer','member','applicant'])->default('member');
-            $table->enum('status',[1,0,-1,-2])->default(0);
-            $table->text('apply')->nullable();
-            $table->text('reject')->nullable();
+            $table->foreignId('party_id')->constrained('parties');
+            $table->foreignId('character_id')->constrained('characters');
+            $table->enum('grade', ['leader', 'officer', 'member'])->default('member');
+            $table->enum('status', [1, 0, -1, -2])->default(0);
             $table->string('memo')->nullable();
             $table->timestamps();
 
-            $table->index(['party_id','character_id']);
+            $table->index(['party_id', 'character_id']);
         });
     }
     /*
@@ -34,7 +32,7 @@ class CreatesCharactersPartiesPivotTable extends Migration
             2 - raid_leader
 
     status : 0 - default(uncheck)
-             1 - approve(check)        
+             1 - approve(check)
             -1 - reject
     /*
 

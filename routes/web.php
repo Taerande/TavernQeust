@@ -18,14 +18,14 @@ use Illuminate\Validation\ValidationException;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test',[PartyController::class,'test']);
-
-Auth::routes();
-
-Route::post('/sanctum/token',[ApiTokennController::class, 'createApiToken']);
+Route::get('/test', [PartyController::class, 'test']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Auth::routes();
+
+Route::post('/sanctum/token', [ApiTokennController::class, 'createApiToken']);
