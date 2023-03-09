@@ -20,7 +20,9 @@ class ScheduleController extends Controller
      */
     public function index(Request $request)
     {
-        $schedules = Schedule::where('start', '>=', date('Y-m-d H:i:s'))->where('status', '=', 1)->with('party')->paginate(12);
+        $schedules = Schedule::where('start', '>=', date('Y-m-d H:i:s'))->where('status', '=', 1)->where('mercenary_id', null)->with(['characters' => function ($query) {
+            $query->where('grade', 'leader');
+        }])->paginate(12);
 
         $beforeData = $schedules->getCollection();
         foreach ($beforeData as $index => $value) {
@@ -30,20 +32,6 @@ class ScheduleController extends Controller
         $schedules->setCollection($beforeData);
 
         return response($schedules, 200);
-        // my Schedule
-        // $parties = Auth::user()->parties()->get(['id']);
-
-        // $data = [];
-
-        // foreach ($parties as $party) {
-        //     $schedule = Schedule::where('party_id', $party['id'])->get(['party_id', 'start', 'end']);
-        //     $data[] = $schedule;
-        // };
-
-
-        // dd($user);
-
-        // dd($user->partySchedules()->get());
     }
 
     /**
@@ -100,7 +88,7 @@ class ScheduleController extends Controller
     {
         $limit = 12;
         $queries = $request->all();
-        $scheduleInfo = Schedule::where('status', '=', 1)->whereNotNull('party_id',);
+        $scheduleInfo = Schedule::where('status', '=', 1);
         $start = null;
         $end = null;
         $minReward = null;
@@ -161,7 +149,14 @@ class ScheduleController extends Controller
             }
             $scheduleInfo->whereBetween('reward', [$startRange, $endRange]);
         }
-        $scheduleInfo = $scheduleInfo->orderBy('start', 'ASC')->with('party')->paginate($limit)->withQueryString();
+        $scheduleInfo = $scheduleInfo->orderBy('start', 'ASC')->with(['characters' => function ($query) {
+            $query->where('grade', 'leader');
+        }])->paginate($limit)->withQueryString();
+
+        // $sql = $scheduleInfo->orderBy('start', 'ASC')->with(['characters' => function ($query) {
+        //     $query->where('grade', 'leader');
+        // }])->toSql();
+        // return ['asd' => $sql];
         $beforeData = $scheduleInfo->getCollection();
         foreach ($beforeData as $index => $value) {
             $beforeData[$index]->recruit = explode(",", $value->recruit);
@@ -171,15 +166,14 @@ class ScheduleController extends Controller
     }
     public function show(Schedule $schedule, $id)
     {
-        $scheduleInfo = Schedule::find($id * 1);
-        $partyId = $scheduleInfo['party_id'];
-        $party = Party::where('id', $partyId)->with('games', 'users')->first();
+        $scheduleInfo = Schedule::where('id', $id * 1)->with(['characters' => function ($query) {
+            $query->where('grade', 'leader');
+        }])->first();
         $members = $scheduleInfo->characters()->wherePivot('grade', '!=', 'applicant')->orderBy('grade', 'asc')->get();
         $scheduleInfo->recruit = explode(",", $scheduleInfo->recruit);
 
         return [
             'scheduleInfo' => $scheduleInfo,
-            'partyInfo' => $party,
             'members' => $members
         ];
     }

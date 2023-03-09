@@ -61,6 +61,7 @@ class LoginController extends Controller
         $token = $user->createToken('projecttq')->plainTextToken;
 
         $response = [
+            'autoLogin' => $request->autoLogin,
             'user' => $user,
             'token' => $token,
         ];
