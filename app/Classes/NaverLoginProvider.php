@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Http;
 
 class NaverLoginProvider
 {
-    private $clinet_id = 'jLobB0i2dKrNzKjYHeYb';
-    private $clinet_secret = 'pO9XsEBmKd';
+    private $clinet_id;
+    private $clinet_secret;
     private $token_url = 'https://nid.naver.com/oauth2.0/token';
     private $profile_url = 'https://openapi.naver.com/v1/nid/me';
     private $grant_type = 'authorization_code';
@@ -19,6 +19,8 @@ class NaverLoginProvider
     function __construct($_code, $_state)
     {
         $this->redirect_uri = $_ENV["APP_FRONTEND_URL"] . '/login/naver';
+        $this->clinet_id = $_ENV["NAVER_CLIENT_ID"];
+        $this->clinet_secret = $_ENV["NAVER_CLIENT_SECRET"];
         $this->code = $_code;
         $this->state = $_state;
     }

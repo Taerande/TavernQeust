@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Http;
 
 class KakaoLoginProvider
 {
-    private $client_id = 'a691f50a917e027782d556f8df5f8a5a';
-    private $client_secret = 'w7qVVBT6wA8tXALcGCsZIX24cIW88B0E';
+    private $client_id;
+    private $client_secret;
     private $token_url = 'https://kauth.kakao.com/oauth/token';
     private $profile_url = 'https://kapi.kakao.com/v2/user/me';
     private $grant_type = 'authorization_code';
@@ -19,6 +19,8 @@ class KakaoLoginProvider
     function __construct($_code, $_state)
     {
         $this->redirect_uri = $_ENV["APP_FRONTEND_URL"] . '/login/kakao';
+        $this->client_id = $_ENV["KAKAO_CLIENT_ID"];
+        $this->client_secret = $_ENV["KAKAO_CLIENT_SECRET"];
         $this->code = $_code;
         $this->state = $_state;
     }
