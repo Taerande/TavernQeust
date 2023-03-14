@@ -7,7 +7,7 @@
 
 ## About Tavern Quest
 
-Tavern Quest 는
+Tavern Quest 는 파티를 등록하고 파티를 쉽게 찾을 수 있게 도와주는 ERP System 입니다. 급하게 구해야할 인원이 있다면 보상을 등록해보세요. 스케쥴을 관리를 보다 쉽게 해보세요.
 
 ## Back-End Structure
 
