@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -9,6 +10,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use App\Classes\NaverLoginProvider;
+use App\Classes\KakaoLoginProvider;
+
+
 
 class LoginController extends Controller
 {
@@ -24,6 +30,8 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
+
+    // private $
 
     /**
      * Where to redirect users after login.
@@ -73,5 +81,45 @@ class LoginController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response(['message' => 'logout Success'], 201);
+    }
+    public function socialLogin($provider, Request $request)
+    {
+        $provider = strtoupper($provider);
+        $user_data = null;
+
+        switch ($provider) {
+            case 'NAVER':
+                $loginProvider =  new NaverLoginProvider($request->code, $request->state);
+                $user_data = $loginProvider->getUserInfo();
+                break;
+            case 'KAKAO':
+                $loginProvider =  new KakaoLoginProvider($request->code, $request->state);
+                $user_data = $loginProvider->getUserInfo();
+                break;
+            case 'GOOGLE':
+                $loginProvider =  new KakaoLoginProvider($request->code, $request->state);
+                $user_data = $loginProvider->getUserInfo();
+                break;
+            default:
+                return 'asdf';
+        }
+        if ($user_data['status'] === 'success') {
+            $user =
+                User::firstOrCreate(
+                    ['email' => $user_data['email']],
+                    [
+                        'email' => $user_data['email'],
+                        'name' => $user_data['name'],
+                        'photoUrl' => $user_data['photoUrl'],
+                        'provider' => $provider
+                    ]
+                );
+            $token = $user->createToken('projecttq')->plainTextToken;
+            $response = [
+                'user' => $user,
+                'token' => $token,
+            ];
+            return response(['response' => $response], 200);
+        }
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Auth\LoginController as UserLoginController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ScheduleController;
 /*
@@ -105,11 +105,9 @@ Route::prefix('user')->group(function () {
 
 
 // Auth, Login & logout
-Route::post('login', [UserLoginController::class, 'login'])->name('login');
-Route::middleware('auth:sanctum')->post('logout', [UserLoginController::class, 'logout'])->name('logout');
-// Sociallite with kakao naver
-// Route::get('login/{provider}', [LoginController::class, 'redirectToProvider']);
-// Route::get('login/{provider}/callback', [LoginController::class, 'handleProviderCallback']);
+Route::post('login', [LoginController::class, 'login'])->name('login');
+Route::middleware('auth:sanctum')->post('logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('login/{provider}', [LoginController::class, 'socialLogin'])->name('social.login');
 
 
 // Blizzard Apis
